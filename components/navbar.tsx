@@ -1,3 +1,4 @@
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -17,6 +18,7 @@ import { link as linkStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import NextLink from "next/link";
 import clsx from "clsx";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 
@@ -30,6 +32,13 @@ export const Navbar = () => {
     { id: 2, href: "/products", label: "Products" },
     { id: 3, href: "/addproducts", label: "Added Products" },
   ];
+
+  const { data: session, status } = useSession({
+    required: true,
+  });
+  if (status === "loading") {
+    return <></>;
+  }
 
   //   /////////////////////////////////
   return (
@@ -67,6 +76,8 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+        <p> user : {session?.user?.email}</p>
+        <Button onClick={() => signOut()}>Logout</Button>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
@@ -77,7 +88,7 @@ export const Navbar = () => {
       <NavbarMenu>
         {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
+          {linnkss.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color={
@@ -87,7 +98,7 @@ export const Navbar = () => {
                     ? "danger"
                     : "foreground"
                 }
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {item.label}
@@ -95,6 +106,8 @@ export const Navbar = () => {
             </NavbarMenuItem>
           ))}
         </div>
+        <p>user : {session?.user?.email}</p>
+        <Button onClick={() => signOut()}>Logout</Button>
       </NavbarMenu>
     </NextUINavbar>
   );
