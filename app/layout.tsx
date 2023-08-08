@@ -7,6 +7,7 @@ import { Providers1 } from "@/store/Providers";
 import { Navbar } from "@/components/navbar";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
+import NextAUthSession from "./providers/sessionProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -41,13 +42,15 @@ export default function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <Providers1>
-              <Navbar />
+            <NextAUthSession>
+              <Providers1>
+                <Navbar />
 
-              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-                {children}
-              </main>
-            </Providers1>
+                <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+                  {children}
+                </main>
+              </Providers1>
+            </NextAUthSession>
           </div>
         </Providers>
       </body>
